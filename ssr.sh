@@ -60,7 +60,7 @@ check_status(){
 		if [[ ${run_status} == "bbr" ]]; then
 			run_status=`lsmod | grep "bbr" | awk '{print $1}'`
 			if [[ ${run_status} == "tcp_bbr" ]]; then
-				run_status="${GREEN}BBR启动成功${PLAIN}"
+				run_status="BBR启动成功"
 			else 
 				run_status="BBR启动失败"
 			fi
