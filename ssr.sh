@@ -110,7 +110,7 @@ getData() {
     echo "  14)nano"
     read -p " 请选择加密方式（默认nano）" answer
     if [[ -z "$answer" ]]; then
-        METHOD="aes-256-cfb"
+        METHOD="nano"
     else
         case $answer in
         1)
@@ -216,7 +216,7 @@ getData() {
             ;;
         *)
             colorEcho $RED " 无效的选择，使用默认协议"
-            PROTOCOL="origin"
+            PROTOCOL="auth_chain_a"
         esac
     fi
     echo ""
