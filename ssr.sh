@@ -39,7 +39,7 @@ check_status(){
 	elif [[ ${kernel_version} = "3.10.0" || ${kernel_version} = "3.16.0" || ${kernel_version} = "3.2.0" || ${kernel_version} = "4.4.0" || ${kernel_version} = "3.13.0"  || ${kernel_version} = "2.6.32" || ${kernel_version} = "4.9.0" ]]; then
 		kernel_status="Lotserver"
 	elif [[ `echo ${kernel_version} | awk -F'.' '{print $1}'` == "4" ]] && [[ `echo ${kernel_version} | awk -F'.' '{print $2}'` -ge 9 ]] || [[ `echo ${kernel_version} | awk -F'.' '{print $1}'` == "5" ]]; then
-		kernel_status="BBR"
+		kernel_status="${GREEN}BBR${PLAIN}"
 	else 
 		kernel_status="noinstall"
 	fi
@@ -48,7 +48,7 @@ check_status(){
 		if [[ -e /appex/bin/lotServer.sh ]]; then
 			run_status=`bash /appex/bin/lotServer.sh status | grep "LotServer" | awk  '{print $3}'`
 			if [[ ${run_status} = "running!" ]]; then
-				run_status="启动成功"
+				run_status="${GREEN}启动成功${PLAIN}"
 			else 
 				run_status="启动失败"
 			fi
@@ -716,7 +716,7 @@ menu() {
 	if [[ ${kernel_status} == "noinstall" ]]; then
 		echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
 	else
-		echo -e " 当前状态: ${Green_font_prefix}已安装${GREEN}${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核${PLAIN} , ${Green_font_prefix}${run_status}${Font_color_suffix}"
+		echo -e " 当前状态: ${Green_font_prefix}已安装${GREEN}${PLAIN}${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 		
 	fi
     echo
