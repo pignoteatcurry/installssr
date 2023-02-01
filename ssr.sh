@@ -716,7 +716,7 @@ menu() {
 	if [[ ${kernel_status} == "noinstall" ]]; then
 		echo -e " 当前状态: 未安装加速内核 请先安装内核"
 	else
-		echo -e " 当前状态: 已安装${GREEN}${PLAIN} ${kernel_status}$ 加速内核 , ${run_status}"
+		echo -e " 当前状态: 已安装${GREEN}${PLAIN} ${kernel_status} 加速内核 , ${run_status}"
 		
 	fi
     echo
