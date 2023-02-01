@@ -716,7 +716,7 @@ menu() {
 	if [[ ${kernel_status} == "noinstall" ]]; then
 		echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
 	else
-		echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
+		echo -e " 当前状态: ${Green_font_prefix}已安装${GREEN}${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核${PLAIN} , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 		
 	fi
     echo
