@@ -55,12 +55,12 @@ check_status(){
 		else 
 			run_status="未安装加速模块"
 		fi
-	elif [[ ${kernel_status} == "BBR" ]]; then
+	elif [[ ${kernel_status} == "${GREEN}BBR${PLAIN}" ]]; then
 		run_status=`grep "net.ipv4.tcp_congestion_control" /etc/sysctl.conf | awk -F "=" '{print $2}'`
 		if [[ ${run_status} == "bbr" ]]; then
 			run_status=`lsmod | grep "bbr" | awk '{print $1}'`
 			if [[ ${run_status} == "tcp_bbr" ]]; then
-				run_status="BBR启动成功"
+				run_status="${GREEN}BBR启动成功${PLAIN}"
 			else 
 				run_status="BBR启动失败"
 			fi
