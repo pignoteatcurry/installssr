@@ -48,7 +48,7 @@ check_status(){
 		if [[ -e /appex/bin/lotServer.sh ]]; then
 			run_status=`bash /appex/bin/lotServer.sh status | grep "LotServer" | awk  '{print $3}'`
 			if [[ ${run_status} = "running!" ]]; then
-				run_status="${GREEN}启动成功${PLAIN}"
+				run_status="启动成功"
 			else 
 				run_status="启动失败"
 			fi
@@ -60,7 +60,7 @@ check_status(){
 		if [[ ${run_status} == "bbr" ]]; then
 			run_status=`lsmod | grep "bbr" | awk '{print $1}'`
 			if [[ ${run_status} == "tcp_bbr" ]]; then
-				run_status="BBR启动成功"
+				run_status="${GREEN}BBR启动成功${PLAIN}"
 			else 
 				run_status="BBR启动失败"
 			fi
