@@ -108,7 +108,7 @@ getData() {
     echo "  12)camellia-256-cfb"
     echo "  13)chacha20-ietf"
     echo "  14)nano"
-    read -p " 请选择加密方式（默认aes-256-cfb）" answer
+    read -p " 请选择加密方式（默认nano）" answer
     if [[ -z "$answer" ]]; then
         METHOD="aes-256-cfb"
     else
@@ -157,7 +157,7 @@ getData() {
             ;;
         *)
             colorEcho $RED " 无效的选择，使用默认加密方式"
-            METHOD="aes-256-cfb"
+            METHOD="nano"
         esac
     fi
     echo ""
@@ -176,9 +176,9 @@ getData() {
     echo "   9)auth_chain_d"
     echo "   10)auth_chain_e"
     echo "   11)auth_chain_f"
-    read -p " 请选择SSR协议（默认origin）" answer
+    read -p " 请选择SSR协议（默认auth_chain_a）" answer
     if [[ -z "$answer" ]]; then
-        PROTOCOL="origin"
+        PROTOCOL="auth_chain_a"
     else
         case $answer in
         1)
