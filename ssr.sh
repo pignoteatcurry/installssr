@@ -31,6 +31,71 @@ colorEcho() {
 }
 
 
+check_status(){
+	kernel_version=`uname -r | awk -F "-" '{print $1}'`
+	kernel_version_full=`uname -r`
+	if [[ ${kernel_version_full} = "4.14.129-bbrplus" ]]; then
+		kernel_status="BBRplus"
+	elif [[ ${kernel_version} = "3.10.0" || ${kernel_version} = "3.16.0" || ${kernel_version} = "3.2.0" || ${kernel_version} = "4.4.0" || ${kernel_version} = "3.13.0"  || ${kernel_version} = "2.6.32" || ${kernel_version} = "4.9.0" ]]; then
+		kernel_status="Lotserver"
+	elif [[ `echo ${kernel_version} | awk -F'.' '{print $1}'` == "4" ]] && [[ `echo ${kernel_version} | awk -F'.' '{print $2}'` -ge 9 ]] || [[ `echo ${kernel_version} | awk -F'.' '{print $1}'` == "5" ]]; then
+		kernel_status="BBR"
+	else 
+		kernel_status="noinstall"
+	fi
+
+	if [[ ${kernel_status} == "Lotserver" ]]; then
+		if [[ -e /appex/bin/lotServer.sh ]]; then
+			run_status=`bash /appex/bin/lotServer.sh status | grep "LotServer" | awk  '{print $3}'`
+			if [[ ${run_status} = "running!" ]]; then
+				run_status="启动成功"
+			else 
+				run_status="启动失败"
+			fi
+		else 
+			run_status="未安装加速模块"
+		fi
+	elif [[ ${kernel_status} == "BBR" ]]; then
+		run_status=`grep "net.ipv4.tcp_congestion_control" /etc/sysctl.conf | awk -F "=" '{print $2}'`
+		if [[ ${run_status} == "bbr" ]]; then
+			run_status=`lsmod | grep "bbr" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_bbr" ]]; then
+				run_status="BBR启动成功"
+			else 
+				run_status="BBR启动失败"
+			fi
+		elif [[ ${run_status} == "tsunami" ]]; then
+			run_status=`lsmod | grep "tsunami" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_tsunami" ]]; then
+				run_status="BBR魔改版启动成功"
+			else 
+				run_status="BBR魔改版启动失败"
+			fi
+		elif [[ ${run_status} == "nanqinlang" ]]; then
+			run_status=`lsmod | grep "nanqinlang" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_nanqinlang" ]]; then
+				run_status="暴力BBR魔改版启动成功"
+			else 
+				run_status="暴力BBR魔改版启动失败"
+			fi
+		else 
+			run_status="未安装加速模块"
+		fi
+	elif [[ ${kernel_status} == "BBRplus" ]]; then
+		run_status=`grep "net.ipv4.tcp_congestion_control" /etc/sysctl.conf | awk -F "=" '{print $2}'`
+		if [[ ${run_status} == "bbrplus" ]]; then
+			run_status=`lsmod | grep "bbrplus" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_bbrplus" ]]; then
+				run_status="BBRplus启动成功"
+			else 
+				run_status="BBRplus启动失败"
+			fi
+		else 
+			run_status="未安装加速模块"
+		fi
+	fi
+}
+
 checkSystem() {
     result=$(id | awk '{print $1}')
     if [[ $result != "uid=0(root)" ]]; then
@@ -647,6 +712,14 @@ menu() {
     echo 
     echo -n " 当前状态："
     statusText
+    check_status
+	if [[ ${kernel_status} == "noinstall" ]]; then
+		echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
+	else
+		echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
+		
+	fi
+    echo
     echo 
 
     read -p " 请选择操作[0-10]：" answer
