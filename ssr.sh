@@ -107,10 +107,10 @@ getData() {
     echo "  11)camellia-192-cfb"
     echo "  12)camellia-256-cfb"
     echo "  13)chacha20-ietf"
-    echo "  14)nano"
-    read -p " 请选择加密方式（默认nano）" answer
+    echo "  14)none"
+    read -p " 请选择加密方式（默认none）" answer
     if [[ -z "$answer" ]]; then
-        METHOD="nano"
+        METHOD="none"
     else
         case $answer in
         1)
@@ -153,11 +153,11 @@ getData() {
             METHOD="chacha20-ietf"
             ;;
         14)
-            METHOD="nano"
+            METHOD="none"
             ;;
         *)
             colorEcho $RED " 无效的选择，使用默认加密方式"
-            METHOD="nano"
+            METHOD="none"
         esac
     fi
     echo ""
